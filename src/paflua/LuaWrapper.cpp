@@ -107,7 +107,7 @@ pafcore::Variant* LuaToVariant(pafcore::Variant* value, lua_State *L, int index)
 			}
 			else
 			{
-				char* p = new_array<char>(len + 1);
+				char* p = paf_new_array<char>(len + 1);
 				memcpy(p, s, len + 1);
 				value->assignPrimitivePtr(RuntimeTypeOf<char>::RuntimeType::GetSingleton(), p, false, ::pafcore::Variant::by_new_array);
 			}
@@ -295,7 +295,7 @@ pafcore::ErrorCode GetNestedType(lua_State *L, pafcore::Type* nestedType)
 pafcore::ErrorCode GetInstanceField(lua_State *L, pafcore::Variant* that, pafcore::InstanceField* field)
 {
 	size_t baseOffset;
-	if(!static_cast<pafcore::ClassType*>(that->m_type)->getBaseClassOffset(baseOffset, field->m_objectType))
+	if(!static_cast<pafcore::ClassType*>(that->m_type)->getClassOffset(baseOffset, field->m_objectType))
 	{
 		return pafcore::e_invalid_type;
 	}
@@ -325,7 +325,7 @@ pafcore::ErrorCode SetInstanceField(lua_State *L, pafcore::Variant* that, pafcor
 		return pafcore::e_field_is_constant;
 	}
 	size_t baseOffset;
-	if(!static_cast<pafcore::ClassType*>(that->m_type)->getBaseClassOffset(baseOffset, field->m_objectType))
+	if(!static_cast<pafcore::ClassType*>(that->m_type)->getClassOffset(baseOffset, field->m_objectType))
 	{
 		return pafcore::e_invalid_object_type;
 	}
@@ -515,47 +515,47 @@ inline bool isNumberString(const char* str)
 
 int Variant_Add(lua_State *L)
 {
-	return InvokeFunction_ArithmeticOperator(L, pafcore::PrimitiveType::Primitive___op_add_);
+	return InvokeFunction_ArithmeticOperator(L, pafcore::PrimitiveType::Primitive_op_add);
 }
 
 int Variant_Sub(lua_State *L)
 {
-	return InvokeFunction_ArithmeticOperator(L, pafcore::PrimitiveType::Primitive___op_sub_);
+	return InvokeFunction_ArithmeticOperator(L, pafcore::PrimitiveType::Primitive_op_subtract);
 }
 
 int Variant_Mul(lua_State *L)
 {
-	return InvokeFunction_ArithmeticOperator(L, pafcore::PrimitiveType::Primitive___op_mul_);
+	return InvokeFunction_ArithmeticOperator(L, pafcore::PrimitiveType::Primitive_op_multiply);
 }
 
 int Variant_Div(lua_State *L)
 {
-	return InvokeFunction_ArithmeticOperator(L, pafcore::PrimitiveType::Primitive___op_div_);
+	return InvokeFunction_ArithmeticOperator(L, pafcore::PrimitiveType::Primitive_op_divide);
 }
 
 int Variant_Mod(lua_State *L)
 {
-	return InvokeFunction_ArithmeticOperator(L, pafcore::PrimitiveType::Primitive___op_mod_);
+	return InvokeFunction_ArithmeticOperator(L, pafcore::PrimitiveType::Primitive_op_mod);
 }
 
 int Variant_Unm(lua_State *L)
 {
-	return InvokeFunction_ArithmeticOperator(L, pafcore::PrimitiveType::Primitive___op_neg_);
+	return InvokeFunction_ArithmeticOperator(L, pafcore::PrimitiveType::Primitive_op_negate);
 }
 
 int Variant_LessThan(lua_State *L)
 {
-	return InvokeFunction_ComparisonOperator(L, pafcore::PrimitiveType::Primitive___op_less_than_);
+	return InvokeFunction_ComparisonOperator(L, pafcore::PrimitiveType::Primitive_op_less);
 }
 
 int Variant_LessEqual(lua_State *L)
 {
-	return InvokeFunction_ComparisonOperator(L, pafcore::PrimitiveType::Primitive___op_less_equal_);
+	return InvokeFunction_ComparisonOperator(L, pafcore::PrimitiveType::Primitive_op_lessEqual);
 }
 
 int Variant_EqualTo(lua_State *L)
 {
-	return InvokeFunction_ComparisonOperator(L, pafcore::PrimitiveType::Primitive___op_equal_to_);
+	return InvokeFunction_ComparisonOperator(L, pafcore::PrimitiveType::Primitive_op_equal);
 }
 
 int Subclassing(lua_State *L)

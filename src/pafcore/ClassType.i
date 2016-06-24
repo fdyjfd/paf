@@ -10,15 +10,16 @@ namespace pafcore
 	class StaticProperty;
 	class StaticMethod;
 	class Enumerator;
+	class TypeAlias;
 	class SubclassInvoker;
 	*$
 	abstract class $PAFCORE_EXPORT ClassType(class_type) : Type
 	{
 		size_t _getMemberCount_(bool includeBaseClasses);
-		Metadata ptr _getMember_(size_t index, bool includeBaseClasses);
-		Metadata ptr _findMember_(const char ptr name, bool includeBaseClasses);
+		Metadata* _getMember_(size_t index, bool includeBaseClasses);
+		Metadata* _findMember_(const char* name, bool includeBaseClasses);
 		size_t _getBaseClassCount_();
-		Metadata ptr _getBaseClass_(size_t index);
+		Metadata* _getBaseClass_(size_t index);
 		$*
 	public:
 		struct BaseClass
@@ -35,9 +36,11 @@ namespace pafcore
 		Metadata* findMember(const char* name, bool includeBaseClasses);
 		Metadata* findClassMember(const char* name, bool includeBaseClasses);
 	public:
-		bool getBaseClassOffset_(size_t& offset, ClassType* otherType);
-		bool getBaseClassOffset(size_t& offset, ClassType* otherType);
+		bool isType(ClassType* otherType);
+		bool getClassOffset_(size_t& offset, ClassType* otherType);
+		bool getClassOffset(size_t& offset, ClassType* otherType);
 		Type* findNestedType(const char* name, bool includeBaseClasses);
+		TypeAlias* findNestedTypeAlias(const char* name, bool includeBaseClasses);
 		InstanceField* findInstanceField(const char* name, bool includeBaseClasses);
 		StaticField* findStaticField(const char* name, bool includeBaseClasses);
 		InstanceProperty* findInstanceProperty(const char* name, bool includeBaseClasses);
@@ -46,12 +49,14 @@ namespace pafcore
 		StaticMethod* findStaticMethod(const char* name, bool includeBaseClasses);
 
 	public:
-		Type** m_nestedTypes;
-		size_t m_nestedTypeCount;
 		BaseClass* m_baseClasses;
 		size_t m_baseClassCount;
 		Metadata** m_members;
 		size_t m_memberCount;
+		Type** m_nestedTypes;
+		size_t m_nestedTypeCount;
+		TypeAlias** m_nestedTypeAliases;
+		size_t m_nestedTypeAliasCount;
 		InstanceField* m_fields;
 		size_t m_fieldCount;
 		InstanceProperty* m_properties;
