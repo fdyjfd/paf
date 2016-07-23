@@ -34,7 +34,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v120_xp</PlatformToolset>
+    <PlatformToolset>v140_xp</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -245,6 +245,9 @@
     <CustomBuild Include="..\..\..\src\pafcore\Type.i">
       <FileType>Document</FileType>
     </CustomBuild>
+    <CustomBuild Include="..\..\..\src\pafcore\System.i">
+      <FileType>Document</FileType>
+    </CustomBuild>
     <None Include="..\..\..\src\pafcore\Type.ic" />
     <None Include="..\..\..\src\pafcore\Type.mc" />
     <None Include="..\..\..\src\pafcore\Type.mh" />
@@ -275,6 +278,7 @@
     <ClCompile Include="..\..\..\src\pafcore\Metadata.cpp" />
     <ClCompile Include="..\..\..\src\pafcore\NameSpace.cpp" />
     <ClCompile Include="..\..\..\src\pafcore\Overload.cpp" />
+    <ClCompile Include="..\..\..\src\pafcore\System.cpp" />
     <ClCompile Include="..\..\..\src\pafcore\VoidType.cpp" />
     <ClCompile Include="..\..\..\src\pafcore\PrimitiveType.cpp" />
     <ClCompile Include="..\..\..\src\pafcore\Reference.cpp" />

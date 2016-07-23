@@ -40,7 +40,7 @@ namespace pafcore
 	};	
 	*$
 
-	abstract class $PAFCORE_EXPORT PrimitiveType(primitive_type) : Type
+	abstract class(primitive_type)$PAFCORE_EXPORT PrimitiveType : Type
 	{
 		size_t _getMemberCount_();
 		Metadata* _getMember_(size_t index);
@@ -50,6 +50,8 @@ namespace pafcore
 		PrimitiveType(const char* name) : Type(name, primitive_object)
 		{}
 	public:
+		InstanceMethod* findInstanceMethod(const char* name);
+		StaticMethod* findStaticMethod(const char* name);
 		Metadata* findTypeMember(const char* name);
 		virtual Metadata* findMember(const char* name);
 		virtual bool castTo(void* dst, Type* dstType, const void* src) = 0;
@@ -1202,6 +1204,13 @@ struct RuntimeTypeOf<long double>
 {
 	typedef ::pafcore::LongDoubleType RuntimeType;
 	enum {type_category = ::pafcore::primitive_object};
+};
+
+template<typename T>
+struct RuntimeTypeOf<T*>
+{
+	typedef RuntimeTypeOf<size_t>::RuntimeType RuntimeType;
+	enum { type_category = ::pafcore::primitive_object };
 };
 
 #pragma warning( pop ) 
