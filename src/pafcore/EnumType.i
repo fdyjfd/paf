@@ -26,8 +26,8 @@ namespace pafcore
 	public:
 		Enumerator* m_enumerators;
 		size_t m_enumeratorCount;
-		InstanceProperty* m_properties;
-		size_t m_propertyCount;
+		InstanceProperty* m_instanceProperties;
+		size_t m_instancePropertyCount;
 #}
 	};
 }

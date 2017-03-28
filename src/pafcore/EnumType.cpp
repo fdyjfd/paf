@@ -13,10 +13,10 @@ EnumType::EnumType(const char* name)
 	m_enumeratorCount = 0;
 	static pafcore::InstanceProperty s_properties[] = 
 	{
-		pafcore::InstanceProperty("_name_", 0, Enum_get__name_, RuntimeTypeOf<char>::RuntimeType::GetSingleton(), Metadata::by_ptr, true, 0, 0, Metadata::by_value, false),
+		::pafcore::InstanceProperty("_name_", 0, 0, Enum_get__name_, RuntimeTypeOf<char>::RuntimeType::GetSingleton(), Metadata::by_ptr, true, 0, 0, Metadata::by_value, false),
 	};
-	m_properties = s_properties;
-	m_propertyCount = paf_array_size_of(s_properties);
+	m_instanceProperties = s_properties;
+	m_instancePropertyCount = paf_array_size_of(s_properties);
 }
 
 size_t EnumType::_getEnumeratorCount_()
@@ -93,8 +93,8 @@ pafcore::ErrorCode EnumType::Enum_get__name_(pafcore::Variant* that, pafcore::Va
 Metadata* EnumType::findMember(const char* name)
 {
 	Metadata dummy(name);
-	InstanceProperty* res = std::lower_bound(m_properties, m_properties + m_propertyCount, dummy);
-	if (m_properties + m_propertyCount != res && strcmp(name, res->m_name) == 0)
+	InstanceProperty* res = std::lower_bound(m_instanceProperties, m_instanceProperties + m_instancePropertyCount, dummy);
+	if (m_instanceProperties + m_instancePropertyCount != res && strcmp(name, res->m_name) == 0)
 	{
 		return res;
 	}

@@ -7,6 +7,7 @@
 #include "ClassType.h"
 #include "Reference.h"
 #include "Reference.mh"
+
 #include <assert.h>
 #include <memory.h>
 

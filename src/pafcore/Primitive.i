@@ -1,0 +1,41 @@
+
+struct Primitive
+{
+	Primitive();
+	Primitive(Primitive arg);
+	Primitive operator+(Primitive arg);
+	Primitive& operator+=(Primitive arg);
+	Primitive& operator=(Primitive arg);
+	Primitive operator&(Primitive arg);
+	Primitive& operator&=(Primitive arg);
+	Primitive operator~();
+	Primitive operator|(Primitive arg);
+	Primitive& operator|=(Primitive arg);
+	Primitive operator^(Primitive arg);
+	Primitive& operator^=(Primitive arg);
+	Primitive& operator--();
+	Primitive operator/(Primitive arg);
+	Primitive& operator/=(Primitive arg);
+	bool operator == (Primitive arg);
+	bool operator > (Primitive arg);
+	bool operator >= (Primitive arg);
+	Primitive& operator++();
+	Primitive operator<<(Primitive arg);
+	Primitive& operator<<=(Primitive arg);
+	bool operator < (Primitive arg);
+	bool operator <= (Primitive arg);
+	Primitive operator%(Primitive arg);
+	Primitive& operator%=(Primitive arg);
+	Primitive operator*(Primitive arg);
+	Primitive& operator*=(Primitive arg);
+	Primitive operator-();
+	bool operator!();
+	bool operator != (Primitive arg);
+	Primitive operator+();
+	Primitive operator--(int arg);
+	Primitive operator++(int arg);
+	Primitive operator>>(Primitive arg);
+	Primitive& operator>>=(Primitive arg);
+	Primitive operator-(Primitive arg);
+	Primitive& operator-=(Primitive arg);
+};

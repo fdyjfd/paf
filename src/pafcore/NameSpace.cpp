@@ -10,6 +10,27 @@
 
 BEGIN_PAFCORE
 
+NameSpace::MetadataTrieTree::Node::~Node()
+{
+	if (!isNull())
+	{
+		if (isMetadata())
+		{
+			Metadata* metadata = getMetadata();
+			if (name_space == metadata->get__category_())
+			{
+				NameSpace* nameSpace = static_cast<NameSpace*>(metadata);
+				delete nameSpace;
+			}
+		}
+		else
+		{
+			Node* node = getChildren();
+			delete[] node;
+		}
+	}
+}
+
 const size_t num_metadata_name_char = 68;
 
 size_t NameSpace::MetadataTrieTree::Node::GetIndex(char c)
@@ -53,7 +74,7 @@ bool NameSpace::MetadataTrieTree::Node::insert(Metadata* metadata, int offset)
 	else if(isMetadata())
 	{
 		Metadata* currentMetadata = getMetadata();
-		Node* children = new Node[num_metadata_name_char];
+		Node* children = paf_new Node[num_metadata_name_char];
 		assert(0 == ((size_t)children & 1));
 		setChildren(children);
 		size_t currentIndex = GetIndex(currentMetadata->m_name[offset]);
@@ -124,19 +145,20 @@ Metadata* NameSpace::MetadataTrieTree::getItem(size_t index)
 {
 	if(index < m_size)
 	{
-		std::vector<Node> nodes;
-		nodes.push_back(m_root);	
+		std::vector<size_t> nodes;
+		nodes.push_back(m_root.m_ptr);	
 		while(!nodes.empty())
 		{
-			Node node = nodes.back();
+			size_t ptr = nodes.back();
+			Node* node = (Node*)&ptr;
 			nodes.pop_back();
-			if(!node.isNull())
+			if(!node->isNull())
 			{
-				if(node.isMetadata())
+				if(node->isMetadata())
 				{
 					if(0 == index)
 					{
-						return node.getMetadata();
+						return node->getMetadata();
 					}
 					else
 					{
@@ -145,13 +167,13 @@ Metadata* NameSpace::MetadataTrieTree::getItem(size_t index)
 				}
 				else
 				{
-					Node* children = node.getChildren();
+					Node* children = node->getChildren();
 					for(size_t i = 0; i < num_metadata_name_char; ++i)
 					{
-						Node child = children[num_metadata_name_char - 1 - i];
-						if(!child.isNull())
+						Node* child = &children[num_metadata_name_char - 1 - i];
+						if(!child->isNull())
 						{
-							nodes.push_back(child);
+							nodes.push_back(child->m_ptr);
 						}
 					}
 				}
@@ -163,8 +185,8 @@ Metadata* NameSpace::MetadataTrieTree::getItem(size_t index)
 
 NameSpace::NameSpace(const char* name)
 	: Metadata(name)
-{
-}
+{}
+
 
 NameSpace* NameSpace::getNameSpace(const char* name)
 {
@@ -174,8 +196,7 @@ NameSpace* NameSpace::getNameSpace(const char* name)
 		Metadata* member = m_members.find(name);
 		if(0 == member)
 		{
-			subNameSpace = new NameSpace(name);
-			subNameSpace->m_scope = this;
+			subNameSpace = paf_new NameSpace(name);
 			m_members.insert(subNameSpace);
 		}
 		else
@@ -195,7 +216,6 @@ ErrorCode NameSpace::registerMember(Metadata* member)
 	{
 		return e_invalid_namespace;
 	}
-	member->m_scope = this;
 	return m_members.insert(member) ? s_ok : e_name_conflict;
 }
 
